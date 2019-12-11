@@ -1,9 +1,30 @@
 module Commands
   class Command
 
-    def initialize(method_name, arguments)
+    attr_reader :method_name, :args
+
+    def initialize(method_name, args)
       @method_name = method_name
-      @arguments = arguments
+      @args = args
     end
+
+    def args_count
+      @args.count
+    end
+
+    def coordinates
+      binding.pry
+      case @method_name
+      when "I"
+        [@args[0], @args[1]]
+      when "L"
+        [@args[0], @args[1]]
+      when "V"
+        [@args[0], @args[1], @args[2]]
+      when "H"
+        [@args[0], @args[1], @args[2]]
+      end
+    end
+
   end
 end
