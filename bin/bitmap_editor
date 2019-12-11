@@ -1,4 +1,13 @@
 #!/usr/bin/env ruby
-require './lib/bitmap_editor__'
+require 'pry'
+require 'require_all'
 
-BitmapEditor.new.run ARGV.first
+require_all 'lib'
+
+binding.pry
+parse_input = ParseInput.new(ARGV.first)
+
+binding.pry
+commands = parse_input.run
+
+binding.pry
