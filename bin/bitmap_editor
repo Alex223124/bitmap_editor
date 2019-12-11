@@ -10,7 +10,5 @@ result = parse_input.run
 parse_commands = Commands::Parser.new(result)
 result = parse_commands.run
 
-result.each do |command|
-  validator = Commands::Validator.new(command)
-  validator.run
-end
+executor = Commands::Executor.new(result)
+executor.run
