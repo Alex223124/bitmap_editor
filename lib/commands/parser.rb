@@ -10,6 +10,7 @@ module Commands
       @commands.each do |command|
         parsed_commands << Commands::Command.new(method_name(command), arguments(command))
       end
+      parsed_commands
     end
 
     private
