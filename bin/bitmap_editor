@@ -4,10 +4,8 @@ require 'require_all'
 
 require_all 'lib'
 
-binding.pry
 parse_input = ParseInput.new(ARGV.first)
-
-binding.pry
 commands = parse_input.run
 
-binding.pry
+parse_commands = Commands::Parser.new(commands)
+parse_commands.run
