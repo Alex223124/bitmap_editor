@@ -5,7 +5,12 @@ require 'require_all'
 require_all 'lib'
 
 parse_input = ParseInput.new(ARGV.first)
-commands = parse_input.run
+result = parse_input.run
 
-parse_commands = Commands::Parser.new(commands)
-parse_commands.run
+parse_commands = Commands::Parser.new(result)
+result = parse_commands.run
+
+result.each do |command|
+  validator = Commands::Validator.new(command)
+  validator.run
+end
