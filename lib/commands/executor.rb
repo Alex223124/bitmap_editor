@@ -4,7 +4,7 @@ module Commands
     RECEIVERS_MAPPING = {
         "I": Bitmap,
         "C": :matrix,
-        "L": 3,
+        "L": :matrix,
         "V": 4,
         "H": 4,
         "S": 0
@@ -13,7 +13,7 @@ module Commands
     METHODS_MAPPING = {
         "I": "new",
         "C": "clear_pixels",
-        "L": 3,
+        "L": "color_pixel",
         "V": 4,
         "H": 4,
         "S": 0
