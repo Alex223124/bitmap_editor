@@ -5,8 +5,8 @@ module Matrix
       @width = width.to_i
       @height = height.to_i
 
-      @rows = (1..@height).to_a
-      @columns = (1..@width).to_a
+      @rows = (1..@width).to_a
+      @columns = (1..@height).to_a
       @pixels = create_pixels
     end
 
