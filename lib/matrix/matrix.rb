@@ -10,6 +10,11 @@ module Matrix
       @pixels = create_pixels
     end
 
+    def clear_pixels
+      service = Pixels::Services::Clear.new(@pixels)
+      @pixels = service.run
+    end
+
     private
 
     def create_pixels
