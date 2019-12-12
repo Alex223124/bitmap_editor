@@ -8,7 +8,7 @@ module Pixels
 
       def run
         @pixels.each do |pixel|
-          pixel.set_default_color
+          pixel.set_color
         end
       end
 
