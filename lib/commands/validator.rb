@@ -37,14 +37,12 @@ module Commands
     private
 
     def validate
-      method_name_correct? &&
-      amount_of_args_correct? &&
-      arguments_quality
+      method_name_correct? && amount_of_args_correct? && arguments_quality_correct?
     end
 
     def method_name_correct?
       if KNOWN_METHOD_NAMES.include?(@command.method_name)
-        #do nothing
+        true
       else
         raise IncorrectMethodNameError.new
       end
@@ -52,22 +50,24 @@ module Commands
 
     def amount_of_args_correct?
       if AMOUNT_OF_ARGS_MAPPING[@command.method_name.to_sym] == @command.args_count
-        #do nothing
+        true
       else
         raise IncorrectAmountOfArgsError.new
       end
     end
 
-    def arguments_quality
+    def arguments_quality_correct?
       ARGS_QUALITY_VALIDATORS_MAPPING[@command.method_name.to_sym].each do |method_name|
-        send(method_name)
+        if send(method_name)
+          true
+        end
       end
     end
 
     def min_and_max_coord_satisfied?
       @command.coordinates.each do |coordinate|
         if (MIN_PIXEL_COORDINATE..MAX_PIXEL_COORDINATE).include?(coordinate.to_i)
-          #do nothing
+          true
         else
           raise IncorrectPixelCoordinatesError.new
         end
@@ -83,10 +83,30 @@ module Commands
     end
 
     def matrix_exists?
-      @context[:matrix]
+      if @context[:matrix]
+        true
+      else
+        raise MatrixDoesntExistsError.new
+      end
     end
-    
-    #
+
+    def pixel_exists?
+      if @context[:matrix].pixel_exists?(*@command.coordinates)
+        true
+      else
+        raise PixelDoesntExistsError.new
+      end
+    end
+
+    def color_format_correct?
+      if (@command.color == @command.color.upcase) && @command.color.size == 1
+        true
+      else
+        raise IncorrectColorFormatError.new
+      end
+    end
+
+
     # def verical_line_exists?
     #
     # end
