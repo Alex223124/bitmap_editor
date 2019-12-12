@@ -13,7 +13,6 @@ module Commands
     end
 
     def coordinates
-      binding.pry
       case @method_name
       when "I"
         [@args[0], @args[1]]
@@ -23,6 +22,13 @@ module Commands
         [@args[0], @args[1], @args[2]]
       when "H"
         [@args[0], @args[1], @args[2]]
+      end
+    end
+
+    def color
+      case @method_name
+      when "L"
+        @args[2]
       end
     end
 
