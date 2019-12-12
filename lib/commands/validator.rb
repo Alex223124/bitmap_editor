@@ -26,9 +26,8 @@ module Commands
     MIN_PIXEL_COORDINATE = 1.freeze
     MAX_PIXEL_COORDINATE = 250.freeze
 
-    def initialize(command, matrix=nil)
+    def initialize(command)
       @command = command
-      @matrix = matrix
     end
 
     def run
@@ -45,6 +44,7 @@ module Commands
 
     def method_name_correct?
       if KNOWN_METHOD_NAMES.include?(@command.method_name)
+        #do nothing
       else
         raise IncorrectMethodNameError.new
       end
@@ -52,7 +52,7 @@ module Commands
 
     def amount_of_args_correct?
       if AMOUNT_OF_ARGS_MAPPING[@command.method_name.to_sym] == @command.args_count
-
+        #do nothing
       else
         raise IncorrectAmountOfArgsError.new
       end
@@ -67,7 +67,7 @@ module Commands
     def min_and_max_coord_satisfied?
       @command.coordinates.each do |coordinate|
         if (MIN_PIXEL_COORDINATE..MAX_PIXEL_COORDINATE).include?(coordinate.to_i)
-
+          #do nothing
         else
           raise IncorrectPixelCoordinatesError.new
         end
@@ -83,7 +83,7 @@ module Commands
     end
 
     def matrix_exists?
-      @matrix
+      @context[:matrix]
     end
 
     # def pixel_exists?
