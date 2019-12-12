@@ -37,8 +37,8 @@ module Commands
     private
 
     def validate
-      method_name_correct? ||
-      amount_of_args_correct? ||
+      method_name_correct? &&
+      amount_of_args_correct? &&
       arguments_quality
     end
 
@@ -85,10 +85,7 @@ module Commands
     def matrix_exists?
       @context[:matrix]
     end
-
-    # def pixel_exists?
-    #
-    # end
+    
     #
     # def verical_line_exists?
     #
