@@ -1,16 +1,18 @@
 module Pixels
   class Pixel
 
+    attr_reader :column_num, :row_num
+
     DEFAULT_COLOR = "O".freeze
 
-    def initialize(column_number, raw_number, color = DEFAULT_COLOR)
-      @column_number = column_number
-      @raw_number = raw_number
+    def initialize(column_num, row_num, color = DEFAULT_COLOR)
+      @column_num = column_num
+      @row_num = row_num
       @color = color
     end
 
-    def set_default_color
-      @color = DEFAULT_COLOR
+    def set_color(color = DEFAULT_COLOR)
+      @color = color
     end
 
   end
