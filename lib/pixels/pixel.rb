@@ -9,5 +9,9 @@ module Pixels
       @color = color
     end
 
+    def set_default_color
+      @color = DEFAULT_COLOR
+    end
+
   end
 end
