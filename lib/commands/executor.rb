@@ -3,7 +3,7 @@ module Commands
 
     RECEIVERS_MAPPING = {
         "I": Bitmap,
-        "C": 0,
+        "C": :matrix,
         "L": 3,
         "V": 4,
         "H": 4,
@@ -12,7 +12,7 @@ module Commands
 
     METHODS_MAPPING = {
         "I": "new",
-        "C": 0,
+        "C": "clear_pixels",
         "L": 3,
         "V": 4,
         "H": 4,
@@ -21,12 +21,14 @@ module Commands
 
     def initialize(commands)
       @commands = commands
+      @context = {}
     end
 
     def run
       @commands.each do |command|
         validate(command)
-        execute(command)
+        result = execute(command)
+        update_context(command, result)
       end
     end
 
@@ -34,6 +36,7 @@ module Commands
 
     def validate(command)
       validator = Commands::Validator.new(command)
+      validator.instance_variable_set(:@context, @context)
       validator.run
     end
 
@@ -46,11 +49,22 @@ module Commands
     end
 
     def set_receiver(command)
-      RECEIVERS_MAPPING[command.method_name.to_sym]
+      receiver = RECEIVERS_MAPPING[command.method_name.to_sym]
+      if receiver.is_a?(Symbol)
+        receiver = @context[receiver]
+      end
+      receiver
     end
 
     def set_method(command)
       METHODS_MAPPING[command.method_name.to_sym]
+    end
+
+    def update_context(command, result)
+      case command.method_name
+      when "I"
+        @context[:matrix] = result.matrix
+      end
     end
 
   end
