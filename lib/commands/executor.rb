@@ -6,7 +6,7 @@ module Commands
         "C": :matrix,
         "L": :matrix,
         "V": :matrix,
-        "H": 4,
+        "H": :matrix,
         "S": 0
     }.freeze
 
@@ -15,7 +15,7 @@ module Commands
         "C": "clear_pixels",
         "L": "color_pixel",
         "V": "draw_vertical_line",
-        "H": 4,
+        "H": "draw_horizontal_line",
         "S": 0
     }.freeze
 
