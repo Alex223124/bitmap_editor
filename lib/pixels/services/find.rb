@@ -11,7 +11,9 @@ module Pixels
       def run
         case @object
         when "pixels_by_column"
-          @pixels.select{ |p| p.column_num == @opts[:column].to_i }
+          @pixels.select{ |p| p.column_num == @opts[:attr].to_i }
+        when "pixels_by_row"
+          @pixels.select{ |p| p.row_num == @opts[:attr].to_i }
         when "pixel"
           @pixels.select{ |p| p.column_num == @opts[:column].to_i && p.row_num == @opts[:row].to_i }.first
         end
