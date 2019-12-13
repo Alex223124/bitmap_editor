@@ -19,13 +19,12 @@ module Commands
                                 "pixel_exists?", "color_format_correct?"],
 
         "V": ["min_and_max_coord_satisfied?", "matrix_exists?", "column_exists?",
-                                "first_coord_less_then_last?",
-                                "vertical_line_exists?",
+                                "first_coord_less_then_last?", "vertical_line_exists?",
                                 "color_format_correct?"],
 
-        "H": ["min_and_max_coord_satisfied?", "matrix_exists?", "first_coord_less_then_last?",
-                                "horisontal_line_exists?",
-                                "color_format_correct?"],
+        "H": ["min_and_max_coord_satisfied?", "matrix_exists?", "row_exists?",
+                                "first_coord_less_then_last?",
+                                "horizontal_line_exists?", "color_format_correct?"],
 
         "S": ["matrix_exists?"]
     }.freeze
@@ -38,12 +37,19 @@ module Commands
 
     def run
       validate
+      validate_arguments_quality
     end
 
     private
 
     def validate
-      method_name_correct? && amount_of_args_correct? && arguments_quality_correct?
+      method_name_correct? && amount_of_args_correct?
+    end
+
+    def validate_arguments_quality
+      ARGS_QUALITY_VALIDATORS_MAPPING[@command.method_name.to_sym].each do |method_name|
+        send(method_name)
+      end
     end
 
     def method_name_correct?
@@ -62,14 +68,6 @@ module Commands
       end
     end
 
-    def arguments_quality_correct?
-      ARGS_QUALITY_VALIDATORS_MAPPING[@command.method_name.to_sym].each do |method_name|
-        if send(method_name)
-          true
-        end
-      end
-    end
-
     def min_and_max_coord_satisfied?
       @command.coordinates.each do |coordinate|
         if (MIN_PIXEL_COORDINATE..MAX_PIXEL_COORDINATE).include?(coordinate.to_i)
@@ -81,7 +79,11 @@ module Commands
     end
 
     def first_coord_less_then_last?
-      @command.coordinates[1].to_i < @command.coordinates[2].to_i
+      if @command.coordinates[0].to_i < @command.coordinates[1].to_i
+        true
+      else
+        raise FirstCoordShouldBeLessThenLastError.new
+      end
     end
 
     def matrix_exists?
@@ -108,6 +110,14 @@ module Commands
       end
     end
 
+    def row_exists?
+      if @context[:matrix].row_exists?(@command.row)
+        true
+      else
+        raise RowDoesntExistsError.new
+      end
+    end
+
     def color_format_correct?
       if (@command.color == @command.color.upcase) && @command.color.size == 1
         true
@@ -117,7 +127,21 @@ module Commands
     end
 
     def vertical_line_exists?
-      @context[:matrix].vertical_line_exists?(*@command.coordinates)
+      binding.pry
+      if @context[:matrix].line_exists?("vertical", *@command.coordinates)
+        true
+      else
+        raise VerticalLineDoesntExistsError.new
+      end
+    end
+
+    def horizontal_line_exists?
+      binding.pry
+      if @context[:matrix].line_exists?("horizontal", *@command.coordinates)
+        true
+      else
+        raise HorizontalLineDoesntExistsError.new
+      end
     end
 
   end
