@@ -1,6 +1,11 @@
 module Matrix
   class Matrix
 
+    FIND_TYPES = {
+        "vertical": "pixels_by_column",
+        "horizontal": "pixels_by_row"
+    }
+
     def initialize(width, height)
       @width = width.to_i
       @height = height.to_i
@@ -11,19 +16,23 @@ module Matrix
     end
 
     def column_exists?(column)
-      find_pixels_by_column(column).count > 0
+      find_("pixels_by_column", column).count > 0
+    end
+
+    def row_exists?(row)
+      find_("pixels_by_row", row).count > 0
     end
 
     def pixel_exists?(row, column)
       Pixels::Services::Find.new("pixel", @pixels, {row: row, column: column} ).run
     end
 
-    def vertical_line_exists?(column, starts_at, ends_at)
-      pixels_by_column = find_pixels_by_column(column)
+    def line_exists?(type, starts_at, ends_at, row_or_column)
+      pixels = find_(FIND_TYPES[type.to_sym], row_or_column)
       coords = possible_line_coords(starts_at, ends_at)
-      expected_vert_pixels_amount = coords.count
-      result = Pixels::Services::DetectVerticalLine.new(pixels_by_column, coords).run
-      expected_vert_pixels_amount == result.count
+      expected_pixels_amount = coords.count
+      result = Pixels::Services::DetectLine.new(type, pixels, coords).run
+      expected_pixels_amount == result.count
     end
 
     def color_pixel(row, column, color)
@@ -32,17 +41,21 @@ module Matrix
     end
 
     def draw_vertical_line(column, starts_at, ends_at, color)
-      Pixels::Services::DrawVerticalLine.new(@pixels, column, starts_at,
-                                             ends_at, color).run
+      Pixels::Services::DrawLine.new("vertical", @pixels, column,
+                                     starts_at, ends_at, color).run
+    end
+
+    def draw_horizontal_line(column, starts_at, ends_at, color)
+      Pixels::Services::DrawLine.new("horizontal", @pixels, column,
+                                     starts_at, ends_at, color).run
     end
 
     def clear_pixels
       Pixels::Services::Clear.new(@pixels).run
     end
 
-    def find_pixels_by_column(column)
-      Pixels::Services::Find.new("pixels_by_column",
-                                 @pixels, {column: column}).run
+    def find_(object, attr)
+      Pixels::Services::Find.new(object, @pixels, {attr: attr}).run
     end
 
     def possible_line_coords(starts_at, ends_at)
