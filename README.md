@@ -7,6 +7,24 @@
 `>bin/bitmap_editor examples/show.txt`
 
 
+# How to run 
+
+/bitmap_editor$ bin/bitmap_editor examples/show.txt
+
+OOOOO
+
+OOZZZ
+
+AWOOO
+
+OWOOO
+
+OWOOO
+
+OWOOO
+
+----------------
+
 Technical Test Ruby developer
 
 - ruby 2.5
