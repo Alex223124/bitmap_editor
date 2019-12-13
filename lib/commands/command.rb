@@ -17,7 +17,7 @@ module Commands
       when "I"
         [@args[0], @args[1]]
       when "L"
-        [@args[0], @args[1]]
+        [@args[1], @args[0]]
       when "V"
         [@args[1], @args[2], @args[0]]
       when "H"
