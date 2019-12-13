@@ -18,7 +18,7 @@ module Pixels
       private
 
       def positions
-        @rows.product(@columns)
+        @columns.product(@rows)
       end
 
     end
