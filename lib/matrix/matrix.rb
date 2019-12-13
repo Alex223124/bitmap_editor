@@ -1,18 +1,29 @@
 module Matrix
   class Matrix
 
+    attr_reader :height, :pixels
+
     FIND_TYPES = {
         "vertical": "pixels_by_column",
         "horizontal": "pixels_by_row"
     }
 
-    def initialize(height, width)
+    def initialize(width, height)
       @width = width.to_i
       @height = height.to_i
-
-      @rows = (1..@height).to_a
-      @columns = (1..@width).to_a
       @pixels = create_pixels
+    end
+
+    def columns
+      @columns = (1..@width).to_a
+    end
+
+    def rows
+      @rows = (1..@height).to_a
+    end
+
+    def show
+      Services::Show.new(self).run
     end
 
     def column_exists?(column)
@@ -39,7 +50,7 @@ module Matrix
       Pixels::Services::DetectLine.new(type, pixels, coords).run
     end
 
-    def color_pixel(row, column, color)
+    def color_pixel(column, row, color)
       Pixels::Services::Color.new("pixel", @pixels, color,
                                  { row: row, column: column }).run
     end
@@ -49,8 +60,8 @@ module Matrix
                                      starts_at, ends_at, color).run
     end
 
-    def draw_horizontal_line(column, starts_at, ends_at, color)
-      Pixels::Services::DrawLine.new("horizontal", @pixels, column,
+    def draw_horizontal_line(starts_at, ends_at, row, color)
+      Pixels::Services::DrawLine.new("horizontal", @pixels, row,
                                      starts_at, ends_at, color).run
     end
 
@@ -69,7 +80,7 @@ module Matrix
     private
 
     def create_pixels
-      Pixels::Services::Create.new(@rows, @columns).run
+      Pixels::Services::Create.new(rows, columns).run
     end
 
   end
