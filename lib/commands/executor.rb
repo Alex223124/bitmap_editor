@@ -7,7 +7,7 @@ module Commands
         "L": :matrix,
         "V": :matrix,
         "H": :matrix,
-        "S": 0
+        "S": :matrix
     }.freeze
 
     METHODS_MAPPING = {
@@ -16,7 +16,7 @@ module Commands
         "L": "color_pixel",
         "V": "draw_vertical_line",
         "H": "draw_horizontal_line",
-        "S": 0
+        "S": "show"
     }.freeze
 
     def initialize(commands)
