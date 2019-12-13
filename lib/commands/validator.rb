@@ -127,7 +127,6 @@ module Commands
     end
 
     def vertical_line_exists?
-      binding.pry
       if @context[:matrix].line_exists?("vertical", *@command.coordinates)
         true
       else
@@ -136,7 +135,6 @@ module Commands
     end
 
     def horizontal_line_exists?
-      binding.pry
       if @context[:matrix].line_exists?("horizontal", *@command.coordinates)
         true
       else
