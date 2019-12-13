@@ -19,10 +19,8 @@ class ParseInput
   end
 
   def parse_textfile
-    binding.pry
     commands = []
     File.open(@input).each do |line|
-      binding.pry
       commands << line.chomp
     end
     commands
