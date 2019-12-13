@@ -39,3 +39,9 @@ class IncorrectColorFormatError < StandardError
     "Error! Colours should be specified by capital letters."
   end
 end
+
+class ColumnDoesntExistsError < StandardError
+  def message
+    "Error! Column you specified do not exist in the current matrix."
+  end
+end
