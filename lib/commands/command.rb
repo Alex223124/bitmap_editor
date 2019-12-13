@@ -25,10 +25,19 @@ module Commands
       end
     end
 
+    def column
+      case @method_name
+      when "V"
+        @args[0]
+      end
+    end
+
     def color
       case @method_name
       when "L"
         @args[2]
+      when "V"
+        @args[3]
       end
     end
 
