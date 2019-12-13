@@ -5,7 +5,7 @@ module Commands
         "I": Bitmap,
         "C": :matrix,
         "L": :matrix,
-        "V": 4,
+        "V": :matrix,
         "H": 4,
         "S": 0
     }.freeze
@@ -14,7 +14,7 @@ module Commands
         "I": "new",
         "C": "clear_pixels",
         "L": "color_pixel",
-        "V": 4,
+        "V": "draw_vertical_line",
         "H": 4,
         "S": 0
     }.freeze
