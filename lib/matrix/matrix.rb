@@ -31,8 +31,12 @@ module Matrix
       pixels = find_(FIND_TYPES[type.to_sym], row_or_column)
       coords = possible_line_coords(starts_at, ends_at)
       expected_pixels_amount = coords.count
-      result = Pixels::Services::DetectLine.new(type, pixels, coords).run
+      result = detect_line(type, pixels, coords)
       expected_pixels_amount == result.count
+    end
+
+    def detect_line(type, pixels, coords)
+      Pixels::Services::DetectLine.new(type, pixels, coords).run
     end
 
     def color_pixel(row, column, color)
