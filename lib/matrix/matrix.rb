@@ -6,12 +6,12 @@ module Matrix
         "horizontal": "pixels_by_row"
     }
 
-    def initialize(width, height)
+    def initialize(height, width)
       @width = width.to_i
       @height = height.to_i
 
-      @rows = (1..@width).to_a
-      @columns = (1..@height).to_a
+      @rows = (1..@height).to_a
+      @columns = (1..@width).to_a
       @pixels = create_pixels
     end
 
