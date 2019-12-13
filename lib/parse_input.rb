@@ -7,7 +7,7 @@ class ParseInput
   end
 
   def run
-    if is_textfile?
+    if (is_textfile? && file_exists?)
       parse_textfile
     end
   end
@@ -16,6 +16,14 @@ class ParseInput
 
   def is_textfile?
     @input[LAST_THREE_CHAR[0], LAST_THREE_CHAR[1]] == "txt"
+  end
+
+  def file_exists?
+    if !@input.nil? && File.exists?(@input)
+      true
+    else
+      raise IncorrectInputError.new
+    end
   end
 
   def parse_textfile
