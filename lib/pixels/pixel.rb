@@ -1,7 +1,7 @@
 module Pixels
   class Pixel
 
-    attr_reader :column_num, :row_num
+    attr_reader :column_num, :row_num, :color
 
     DEFAULT_COLOR = "O".freeze
 
