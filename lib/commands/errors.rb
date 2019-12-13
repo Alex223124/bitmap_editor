@@ -63,3 +63,15 @@ class FirstCoordShouldBeLessThenLastError < StandardError
     "Error! First coordinate should be less then second!"
   end
 end
+
+class VerticalLineDoesntExistsError < StandardError
+  def message
+    "Error! Vertical line do not exist in the current matrix."
+  end
+end
+
+class HorizontalLineDoesntExistsError < StandardError
+  def message
+    "Error! Horizontal line do not exist in the current matrix."
+  end
+end
