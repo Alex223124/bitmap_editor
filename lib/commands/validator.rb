@@ -12,15 +12,21 @@ module Commands
     }.freeze
     ARGS_QUALITY_VALIDATORS_MAPPING = {
         "I": ["min_and_max_coord_satisfied?"],
+
         "C": ["matrix_exists?"],
-        "L": ["matrix_exists?", "pixel_exists?",
+
+        "L": ["min_and_max_coord_satisfied?", "matrix_exists?",
+                                "pixel_exists?", "color_format_correct?"],
+
+        "V": ["min_and_max_coord_satisfied?", "matrix_exists?", "column_exists?",
+                                "first_coord_less_then_last?",
+                                "vertical_line_exists?",
                                 "color_format_correct?"],
-        "V": ["matrix_exists?", "first_coord_less_then_last?",
-                                "verical_line_exists?",
-                                "color_format_correct?"],
-        "H": ["matrix_exists?", "first_coord_less_then_last?",
+
+        "H": ["min_and_max_coord_satisfied?", "matrix_exists?", "first_coord_less_then_last?",
                                 "horisontal_line_exists?",
                                 "color_format_correct?"],
+
         "S": ["matrix_exists?"]
     }.freeze
     MIN_PIXEL_COORDINATE = 1.freeze
@@ -74,12 +80,8 @@ module Commands
       end
     end
 
-    # only for this two
-    # V X Y1 Y2 C - Draw a vertical segment of colour C in column X between rows Y1 and Y2 (inclusive).
-    # H X1 X2 Y C - Draw a horizontal segment of colour C in row Y between columns X1 and X2 (inclusive).
     def first_coord_less_then_last?
-      # < или <= ?
-      @command.args[0].to_i < @command.args[1].to_i
+      @command.coordinates[1].to_i < @command.coordinates[2].to_i
     end
 
     def matrix_exists?
@@ -98,6 +100,14 @@ module Commands
       end
     end
 
+    def column_exists?
+      if @context[:matrix].column_exists?(@command.column)
+        true
+      else
+        raise ColumnDoesntExistsError.new
+      end
+    end
+
     def color_format_correct?
       if (@command.color == @command.color.upcase) && @command.color.size == 1
         true
@@ -106,26 +116,9 @@ module Commands
       end
     end
 
+    def vertical_line_exists?
+      @context[:matrix].vertical_line_exists?(*@command.coordinates)
+    end
 
-    # def verical_line_exists?
-    #
-    # end
-    #
-    # def horisontal_line_exists?
-    #
-    # end
-    #
-    # def color_format_correct?
-    #
-    # end
-    #
-    #
-    # def row_exists?
-    #
-    # end
-    #
-    # def column_exists?
-    #
-    # end
   end
 end
